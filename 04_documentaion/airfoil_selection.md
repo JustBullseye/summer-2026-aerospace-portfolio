@@ -1,29 +1,24 @@
-## Week 2: Airfoil Selection & 2D Analysis
+## Week 2: Airfoil Selection & Python Data Analysis
 
 ### Candidate Airfoils Evaluated
 1. **NACA 2412**: General aviation baseline profile.
-2. **Selig S7012**: High-speed, low-drag penetration profile.
-3. **Drela AG35**: Specialized low-Reynolds-number soaring profile.
+2. **S1223**: High-lift, heavy-payload cambered profile.
+3. **S7012**: High-speed penetration profile.
+4. **AG35**: Low-Reynolds specialized soaring profile.
+5. **NACA 4412**: High-camber aerodynamic profile.
 
-### Simulation Parameters
-* **Software**: XFLR5 v6.62
-* **Analysis Type**: XFoil Direct Analysis (Type 1)
-* **Reynolds Number (Re)**: 100,000 (Simulating 2.0m glider cruise velocity)
-* **Angle of Attack ($\alpha$) Sweep**: -5.0° to 15.0° (Step: 0.5°)
+### Simulation & Plotting Parameters
+* **Aerodynamic Engine**: XFLR5 v6.62 (Type 1 Analysis, $Re = 100,000$)
+* **Data Processing**: Python 3.14 (Pandas, Matplotlib)
+* **Target Metric**: Lift-to-Drag Ratio ($L/D$) vs Angle of Attack ($\alpha$)
 
-### Head-to-Head Performance Matrix
-| Airfoil Profile | Max Lift ($Cl_{max}$) | Stall Angle ($\alpha_{stall}$) | Aerodynamic Stall Characteristic |
-| :--- | :---: | :---: | :--- |
-| **NACA 2412** | ~1.25 | 10.5° | Sharp, sudden loss of lift |
-| **Selig S7012** | ~1.12 | 9.5° | Moderate drop-off, built for high speed |
-| **Drela AG35** | **1.228** | **9.0°** | **Gentle, rounded peak (High recovery safety)** |
+### Python-Generated Performance Plot
+![Airfoil Glide Efficiency Comparison](01_aerodynamics/polars/airfoil_comparison_plot.png)
 
-### Design Selection & Justification
-The **Drela AG35** was officially selected as the primary wing airfoil for this aerospace portfolio project. 
+### Performance Evaluation Matrix
+* **Maximum Glide Efficiency ($L/D_{max}$)**: NACA 4412 ($L/D \approx 55.5$ @ $\alpha = 9.0^\circ$)
+* **Broad-Range Cruise Stability**: NACA 4412 maintains the highest efficiency from $\alpha = 7.5^\circ$ to $15^\circ$.
+* **High-Lift Constraint**: While the S1223 (Orange) offers exceptional early lift generation, its heavy drag profile drastically reduces glide performance beyond $\alpha = 5^\circ$.
 
-While the NACA 2412 achieves a slightly higher absolute peak lift, it suffers from a sharp stall drop-off that presents high risks for low-altitude RC flight maneuvers. The Selig S7012 minimizes drag at high speeds but fails to generate the high lift coefficients required for slow, unpowered thermal soaring. 
-
-The **Drela AG35** represents the optimal "Goldilocks" compromise for an endurance glider operating at $Re = 100,000$:
-1. It delivers a high operating lift coefficient ($Cl = 1.228$) at a $9.0°$ angle of attack.
-2. It exhibits a remarkably safe, progressive stall profile, allowing camp operators/hobby pilots ample time to recover before a total loss of control.
-3. It maintains a tight profile against the low-drag boundary across the entire cruise lift spectrum.
+### Engineering Decision
+The **NACA 4412** is selected as the primary wing geometry. It definitively satisfies our mission requirements by offering the maximum aerodynamic glide efficiency ($L/D > 55$) at a stable, controllable angle of attack. This ensures excellent thermal soaring capabilities and maximal range for our 2.0-meter platform.
