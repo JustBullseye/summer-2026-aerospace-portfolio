@@ -1,0 +1,48 @@
+# Week 05: Computational Validation & Drag Polar Matching
+
+## 🎯 Objective
+Parse output polars from XFLR5 3D Panel analysis (Path A) and compare them directly against empirical estimations (Path B) to validate aircraft aerodynamic efficiency ($C_L/C_D$) and drag characteristics.
+
+---
+
+## 🛠️ Methodological Approach
+
+### Path A: XFLR5 3D Panel Analysis
+* **Method:** Full 3D Panel method with Neumann boundary conditions.
+* **Viscous Coupling:** Interpolated 2D viscous $C_d$ from local sectional Reynolds numbers based on pre-calculated XFOIL polars.
+* **Data Extraction:** Automated parsing of 3D text polar exports using custom Python string manipulation.
+
+### Path B: Parabolic Drag Approximation
+* **Formulation:** $C_D = C_{D,0} + K C_L^2$
+* **Induced Drag Parameter:** $K = \frac{1}{\pi \cdot AR \cdot e}$
+  * $AR = 13.8$ (Aspect Ratio)
+  * $e = 0.78$ (Oswald Efficiency Factor accounting for non-elliptical lift distribution and body interference)
+
+---
+
+## 📈 Verification & Results Comparison
+
+![Drag Polar Comparison](../01_aerodynamics/week5_parasitic_drag_comparison.png)
+
+### Key Metrics Summary
+
+| Metric | Path A (XFLR5 3D Panel) | Path B (Empirical Model) | Absolute Δ | Relative Error (%) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Minimum Drag ($C_{D,0}$)** | $0.0314$ | $0.0311$ | $0.0003$ | $0.96\%$ |
+| **Max Glide Ratio $(C_L/C_D)_{\max}$** | $17.72$ | $17.85$ | $0.13$ | $0.73\%$ |
+| **Optimal Angle of Attack ($\alpha_{\text{opt}}$)** | $4.0^\circ$ | $4.2^\circ$ | $0.2^\circ$ | -- |
+| **Optimal Lift Coefficient ($C_{L, \text{opt}}$)** | $0.613$ | $0.625$ | $0.012$ | $1.95\%$ |
+
+---
+
+## 💡 Engineering Insights & Divergence Analysis
+
+1. **Parabolic Region Matching ($\alpha = 0^\circ \text{ to } 6^\circ$):**
+   * Excellent alignment between panel methods and empirical models in the linear lift regime, confirming that the Raymer build-up successfully captured low-Re skin friction penalties.
+
+2. **Induced Drag Divergence at High Angle of Attack ($\alpha > 6^\circ$):**
+   * At $C_L > 1.0$, XFLR5 predicts higher induced drag than the parabolic model.
+   * *Reason:* XFLR5 calculates local spanwise vortex roll-up and downwash variations, whereas the parabolic model assumes a constant Oswald efficiency ($e = 0.78$) across all angles of attack.
+
+3. **Resolved Implementation Issues:**
+   * Resolved a column index misalignment where crosswind angle `Beta` ($0.0$) was mistakenly parsed instead of $C_L$, ensuring clean non-zero drag polar generation.

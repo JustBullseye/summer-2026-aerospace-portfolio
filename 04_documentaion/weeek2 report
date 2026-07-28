@@ -1,0 +1,31 @@
+# Week 02: 3D Wing Geometry & Vortex-Lattice Method (VLM)
+
+## 🎯 Objective
+Design a 3D main wing planform based on the NACA 4412 profile and evaluate spanwise lift distribution, induced drag, and Oswald efficiency using XFLR5's Vortex-Lattice Method (VLM1 / VLM2).
+
+---
+
+## 📐 Wing Planform Architecture
+
+* **Wingspan ($b$):** $2.0 \text{ m}$
+* **Root Chord ($c_{\text{root}}$):** $0.18 \text{ m}$
+* **Tip Chord ($c_{\text{tip}}$):** $0.11 \text{ m}$
+* **Taper Ratio ($\lambda$):** $0.61$
+* **Mean Aerodynamic Chord ($c_{\text{MAC}}$):** $0.145 \text{ m}$
+* **Planform Area ($S_{\text{ref}}$):** $0.29 \text{ m}^2$
+* **Aspect Ratio ($AR$):** $13.8$
+* **Geometric Twist:** $-2.0^\circ$ (Washout at tip to mitigate tip stall)
+
+---
+
+## 📊 VLM Simulation Results Summary
+
+```text
+  Spanwise Lift Distribution (VLM2)
+  +---------------------------------------------------+
+  |                  /---\                            |  <-- Near-Elliptic Distribution
+  |                 /     \                           |
+  |                /       \                          |
+  |  =============/========= \=============           |
+  |  -1.0m       -0.5m      0.0m      0.5m      1.0m  | (Semi-span)
+  +---------------------------------------------------+
